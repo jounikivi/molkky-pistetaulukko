@@ -1,8 +1,7 @@
 import java.util.ArrayList;
 
 public class Pelisessio {
-
-  private ArrayList<Pelaaja> pelaajat; // ArrayList, joka sisältää kaikki pelaajat
+    private ArrayList<Pelaaja> pelaajat; // ArrayList, joka sisältää kaikki pelaajat
     
     public Pelisessio() {
         this.pelaajat = new ArrayList<Pelaaja>(); // alustetaan pelaajat-lista
@@ -40,20 +39,17 @@ public class Pelisessio {
         for (Pelaaja pelaaja : pelaajat) { // käydään läpi kaikki pelaajat
             if (pelaaja.getNimi().equals(pelaajaNimi)) { // etsitään pelaaja, jonka nimi on sama kuin annettu nimi
                 int uudetPisteet = pelaaja.getPisteet() + pisteet; // lisätään annetut pisteet pelaajan nykyiseen pistemäärään
-                pelaaja.lisaaPisteet(uudetPisteet); // tallennetaan uusi pistemäärä pelaaja-olioon
+                pelaaja.setPisteet(uudetPisteet); // tallennetaan uusi pistemäärä pelaaja-olioon
                 break; // lopetetaan looppi kun pelaaja on löydetty ja pisteet lisätty
             }
         }
     }
     
     // Palauttaa voittajan nimen
-    public void ilmoitaVoittaja() {
+    public String ilmoitaVoittaja() {
         Pelaaja voittaja = pelaajat.get(0); // asetetaan voittajaksi ensimmäinen pelaaja pelaajat-listassa
         for (Pelaaja pelaaja : pelaajat) { // käydään läpi kaikki pelaajat
             if (pelaaja.getPisteet() > voittaja.getPisteet()) { // etsitään pelaaja, jolla on suurin pistemäärä
                 voittaja = pelaaja; // päivitetään voittaja
             }
         }
-      }
-}
-    
