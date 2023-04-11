@@ -2,27 +2,24 @@ public class Pelaaja {
   private String nimi;
   private int pisteet;
   
-  // konstruktori
+  // Konstruktori, joka ottaa vastaan pelaajan nimen ja alustaa pelaajan pistemäärän nollaksi
   public Pelaaja(String nimi) {
-      this.nimi = nimi;
-      this.pisteet = 0;
+    this.nimi = nimi;
+    this.pisteet = 0;
   }
-
-  // getterit ja setterit
-  public String getNimi() {
-      return this.nimi;
+  
+  // Palauttaa pelaajan nimen
+  public String getNimi(){
+    return nimi;
   }
-
-  public void setNimi(String nimi) {
-      this.nimi = nimi;
+  
+  // Palauttaa pelaajan pistemäärän
+  public int getPisteet(){
+    return pisteet;
   }
-
-  public int getPisteet() {
-      return this.pisteet;
-  }
-
-  public void setPisteet(int pisteet) {
-      this.pisteet = pisteet;
+  
+  // Asettaa pelaajan pistemäärän
+  public void lisaaPisteet(int pisteet){
+    this.pisteet += pisteet;
   }
 }
-
