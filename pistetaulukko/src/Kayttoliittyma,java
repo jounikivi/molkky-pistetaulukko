@@ -1,0 +1,81 @@
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+public class Kayttoliittyma extends Application {
+
+    private Peli peli;
+
+    private ListView<Pelaaja> pelaajatLista;
+    private Label heittoTulosLabel;
+    private Label voittajaLabel;
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+
+        peli = new Peli();
+
+        BorderPane peliNakyma = new BorderPane();
+        peliNakyma.setPadding(new Insets(10, 10, 10, 10));
+
+        // Pelaajien lista
+        Label pelaajatLabel = new Label("Pelaajat:");
+        pelaajatLista = new ListView<>();
+        pelaajatLista.setPrefWidth(200);
+        pelaajatLista.setPrefHeight(400);
+
+        // Pelaajan lisääminen
+        Label lisaaPelaajaLabel = new Label("Lisää pelaaja:");
+        TextField lisaaPelaajaTextField = new TextField();
+        Button lisaaPelaajaButton = new Button("Lisää");
+        lisaaPelaajaButton.setOnAction(e -> {
+            peli.lisaaPelaaja(lisaaPelaajaTextField.getText());
+            lisaaPelaajaTextField.clear();
+            updatePelaajat();
+        });
+
+        VBox pelaajatBox = new VBox();
+        pelaajatBox.setAlignment(Pos.CENTER_LEFT);
+        pelaajatBox.setSpacing(10);
+        pelaajatBox.getChildren().addAll(pelaajatLabel, pelaajatLista, lisaaPelaajaLabel, lisaaPelaajaTextField, lisaaPelaajaButton);
+
+        // Pelin tilanne
+        Label heittoTulosTitle = new Label("Heittotulos:");
+        heittoTulosLabel = new Label("-");
+        HBox heittoTulosBox = new HBox();
+        heittoTulosBox.setAlignment(Pos.CENTER);
+        heittoTulosBox.setSpacing(10);
+        heittoTulosBox.getChildren().addAll(heittoTulosTitle, heittoTulosLabel);
+
+        Label voittajaTitle = new Label("Voittaja:");
+        voittajaLabel = new Label("-");
+        HBox voittajaBox = new HBox();
+        voittajaBox.setAlignment(Pos.CENTER);
+        voittajaBox.setSpacing(10);
+        voittajaBox.getChildren().addAll(voittajaTitle, voittajaLabel);
+
+        VBox peliTilanneBox = new VBox();
+        peliTilanneBox.setAlignment(Pos.CENTER);
+        peliTilanneBox.setSpacing(10);
+        peliTilanneBox.getChildren().addAll(heittoTulosBox, voittajaBox);
+
+        // Pelin hallinta
+        Button aloitaPeliButton = new Button("Aloita peli");
+        aloitaPeliButton.setOnAction(e -> {
+            peli.aloitaPeli();
+            updatePelaajat();
+        });
+
+        Button lopetaPeliButton = new Button("Lopeta peli");
+        lopetaPeliButton.setOnAction(e -> {
+            peli.lopetaPeli();
