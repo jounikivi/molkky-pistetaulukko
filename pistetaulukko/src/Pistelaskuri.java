@@ -60,4 +60,8 @@ public class Pistelaskuri {
     public boolean onkoJollainPelaajalla50Pistetta() {
       return false;
     }
+
+    public Pelaaja haePelaaja(String nimi) {
+        return null;
+    }
 }
