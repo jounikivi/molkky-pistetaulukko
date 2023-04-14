@@ -1,7 +1,7 @@
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class MolkkyPistelaskuri {
+public class MolkkyPistelaskuriV1 {
     public static void main(String[] args) {
         HashMap<String, Integer> pelaajat = new HashMap<String, Integer>();
         try (Scanner lukija = new Scanner(System.in)) {
