@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class MolkkyPistelaskuri {
+public class MolkkyPistelaskuri3 {
     public static void main(String[] args) {
         Scanner lukija = new Scanner(System.in);
         System.out.print("Anna pelaajien lukumäärä: ");
