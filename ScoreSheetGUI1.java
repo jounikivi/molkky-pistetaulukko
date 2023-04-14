@@ -8,9 +8,18 @@ public class ScoreSheetGUI1 extends JFrame implements ActionListener {
     private JButton addButton, resetButton;
     private JTextArea scoreArea;
     private int totalScore;
+    private int numberOfPlayers;
+    private String[] playerNames;
 
     public ScoreSheetGUI1() {
         super("Score Sheet");
+
+        // Get number of players and player names
+        numberOfPlayers = Integer.parseInt(JOptionPane.showInputDialog("Enter the number of players:"));
+        playerNames = new String[numberOfPlayers];
+        for (int i = 0; i < numberOfPlayers; i++) {
+            playerNames[i] = JOptionPane.showInputDialog("Enter name of player " + (i+1) + ":");
+        }
 
         // Create GUI components
         playerLabel = new JLabel("Player Name:");
