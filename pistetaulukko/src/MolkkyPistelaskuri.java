@@ -1,52 +1,44 @@
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MolkkyPistelaskuri {
     public static void main(String[] args) {
-        HashMap<String, Integer> pelaajat = new HashMap<String, Integer>();
-        try (Scanner lukija = new Scanner(System.in)) {
-            System.out.print("Anna pelaajien lukumäärä: ");
-            int pelaajienLkm = lukija.nextInt();
+        Scanner lukija = new Scanner(System.in);
+        System.out.print("Anna pelaajien lukumäärä: ");
+        int pelaajienLkm = lukija.nextInt();
+        lukija.nextLine();
+
+        ArrayList<Pelaaja> pelaajat = new ArrayList<Pelaaja>();
+        for (int i = 1; i <= pelaajienLkm; i++) {
+            System.out.print("Anna pelaajan " + i + " nimi: ");
+            String nimi = lukija.nextLine();
+            pelaajat.add(new Pelaaja(nimi));
+        }
+
+        Pistelaskuri pistelaskuri = new Pistelaskuri(pelaajat);
+
+        while (true) {
+            Pelaaja nykyinenPelaaja = pistelaskuri.getNykyinenPelaaja();
+            System.out.println(nykyinenPelaaja.getNimi() + " heittää seuraavaksi.");
+
+            System.out.print("Kuinka monta pistettä lisätään? (1-12): ");
+            int pisteet = lukija.nextInt();
             lukija.nextLine();
 
-            for (int i = 1; i <= pelaajienLkm; i++) {
-                System.out.print("Anna pelaajan " + i + " nimi: ");
-                String nimi = lukija.nextLine();
-                pelaajat.put(nimi, 0);
+            pistelaskuri.lisaaPisteet(nykyinenPelaaja, pisteet);
+
+            for (Pelaaja pelaaja : pelaajat) {
+                System.out.println(pelaaja.getNimi() + ": " + pelaaja.getPisteet());
             }
 
-            String[] pelaajaNimet = pelaajat.keySet().toArray(new String[0]);
-            int nykyinenPelaajaIndex = 0; // Alustetaan ensimmäinen pelaaja vuoroon
-
-            while (true) {
-                String nykyinenPelaaja = pelaajaNimet[nykyinenPelaajaIndex];
-                System.out.println(nykyinenPelaaja + " heittää seuraavaksi.");
-
-                System.out.print("Kuinka monta pistettä lisätään? (1-12): ");
-                int pisteet = lukija.nextInt();
-                lukija.nextLine();
-
-                int vanhatPisteet = pelaajat.get(nykyinenPelaaja);
-                int uudetPisteet = vanhatPisteet + pisteet;
-
-                if (uudetPisteet > 50) {
-                    System.out.println("Liikaa pisteitä! " + nykyinenPelaaja + " tippuu takaisin 25 pisteeseen.");
-                    pelaajat.put(nykyinenPelaaja, 25);
-                } else {
-                    pelaajat.put(nykyinenPelaaja, uudetPisteet);
-                }
-
-                nykyinenPelaajaIndex = (nykyinenPelaajaIndex + 1) % pelaajienLkm; // Päivitä seuraavan pelaajan indeksi
-
-                for (String pelaaja : pelaajat.keySet()) {
-                    System.out.println(pelaaja + ": " + pelaajat.get(pelaaja));
-                }
-
-                if (pelaajat.containsValue(50)) {
-                    System.out.println("Peli päättyi! " + nykyinenPelaaja + " voitti.");
-                    break;
-                }
+            if (pistelaskuri.onkoJollainPelaajalla50Pistetta()) {
+                System.out.println("Peli päättyi! " + nykyinenPelaaja.getNimi() + " voitti.");
+                break;
             }
+
+            pistelaskuri.seuraavaPelaaja();
         }
+
+        lukija.close();
     }
 }
