@@ -21,32 +21,40 @@ public class MolkkyPistelaskuriV1 {
             while (true) {
                 String nykyinenPelaaja = pelaajaNimet[nykyinenPelaajaIndex];
                 System.out.println(nykyinenPelaaja + " heittää seuraavaksi.");
-
-                System.out.print("Kuinka monta pistettä lisätään? (1-12): ");
-                int pisteet = lukija.nextInt();
-                lukija.nextLine();
-
+            
+                int pisteet = 0;
+                while (true) {
+                    System.out.print("Kuinka monta pistettä lisätään? (1-12): ");
+                    pisteet = lukija.nextInt();
+                    lukija.nextLine();
+                    if (pisteet >= 0 && pisteet <= 12) {
+                        break;
+                    }
+                    System.out.println("Syötä luku väliltä 0-12.");
+                }
+            
                 int vanhatPisteet = pelaajat.get(nykyinenPelaaja);
                 int uudetPisteet = vanhatPisteet + pisteet;
-
+            
                 if (uudetPisteet > 50) {
                     System.out.println("Liikaa pisteitä! " + nykyinenPelaaja + " tippuu takaisin 25 pisteeseen.");
                     pelaajat.put(nykyinenPelaaja, 25);
                 } else {
                     pelaajat.put(nykyinenPelaaja, uudetPisteet);
                 }
-
-                nykyinenPelaajaIndex = (nykyinenPelaajaIndex + 1) % pelaajienLkm; // Päivitä seuraavan pelaajan indeksi
-
+            
+                nykyinenPelaajaIndex = (nykyinenPelaajaIndex + 1) % pelaajienLkm;
+            
                 for (String pelaaja : pelaajat.keySet()) {
                     System.out.println(pelaaja + ": " + pelaajat.get(pelaaja));
                 }
-
+            
                 if (pelaajat.containsValue(50)) {
                     System.out.println("Peli päättyi! " + nykyinenPelaaja + " voitti.");
                     break;
                 }
             }
+            
         }
     }
 }
