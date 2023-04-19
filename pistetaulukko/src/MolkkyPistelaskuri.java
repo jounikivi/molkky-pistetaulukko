@@ -3,6 +3,12 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.HashMap;
 
+/**
+ * MolkkyPistelaskuri on JFrame-luokka, joka toimii Mölkky-pelin pistelaskurina.
+ * Käyttöliittymässä on mahdollisuus syöttää pelaajien nimet ja pelin aikana lisätä pisteitä
+ * pelaajille. Peli päättyy, kun joku pelaaja saavuttaa 50 pistettä.
+ */
+
 public class MolkkyPistelaskuri extends JFrame {
     private HashMap<String, Integer> pelaajat = new HashMap<String, Integer>();
     private String[] pelaajaNimet;
@@ -13,6 +19,10 @@ public class MolkkyPistelaskuri extends JFrame {
     private JTextField pisteetTextField;
     private JButton lisaaPisteetButton;
     private JTable taulukko;
+
+    /**
+     * Konstruktori, jossa kysytään pelaajien nimet ja luodaan käyttöliittymä.
+     */
 
     public MolkkyPistelaskuri() {
         super("Mölkky Pistelaskuri");
@@ -70,31 +80,36 @@ public class MolkkyPistelaskuri extends JFrame {
             }
         
             private void lisaaPisteet() {
-                int pisteet = Integer.parseInt(pisteetTextField.getText());
-                pisteetTextField.setText("");
-        
-                String nykyinenPelaaja = pelaajaNimet[nykyinenPelaajaIndex];
-                int vanhatPisteet = pelaajat.get(nykyinenPelaaja);
-                int uudetPisteet = vanhatPisteet + pisteet;
-        
-                if (uudetPisteet > 50) {
-                    JOptionPane.showMessageDialog(this, "Liikaa pisteitä! " + nykyinenPelaaja + " tippuu takaisin 25 pisteeseen.");
-                    pelaajat.put(nykyinenPelaaja, 25);
-                } else {
-                    pelaajat.put(nykyinenPelaaja, uudetPisteet);
-                }
-        
-                nykyinenPelaajaIndex = (nykyinenPelaajaIndex + 1) % pelaajat.size();
-                pelaajaLabel.setText(pelaajaNimet[nykyinenPelaajaIndex]);
-                for (int i = 0; i < pelaajat.size(); i++) {
-                    taulukko.setValueAt(pelaajat.get(pelaajaNimet[i]), i, 1);
-                }
-        
-                if (pelaajat.containsValue(50)) {
-                    JOptionPane.showMessageDialog(this, "Peli päättyi! " + nykyinenPelaaja + " voitti.");
-                    System.exit(0);
+                try {
+                    int pisteet = Integer.parseInt(pisteetTextField.getText());
+                    pisteetTextField.setText("");
+            
+                    String nykyinenPelaaja = pelaajaNimet[nykyinenPelaajaIndex];
+                    int vanhatPisteet = pelaajat.get(nykyinenPelaaja);
+                    int uudetPisteet = vanhatPisteet + pisteet;
+            
+                    if (uudetPisteet > 50) {
+                        JOptionPane.showMessageDialog(this, "Liikaa pisteitä! " + nykyinenPelaaja + " tippuu takaisin 25 pisteeseen.");
+                        pelaajat.put(nykyinenPelaaja, 25);
+                    } else {
+                        pelaajat.put(nykyinenPelaaja, uudetPisteet);
+                    }
+            
+                    nykyinenPelaajaIndex = (nykyinenPelaajaIndex + 1) % pelaajat.size();
+                    pelaajaLabel.setText(pelaajaNimet[nykyinenPelaajaIndex]);
+                    for (int i = 0; i < pelaajat.size(); i++) {
+                        taulukko.setValueAt(pelaajat.get(pelaajaNimet[i]), i, 1);
+                    }
+            
+                    if (pelaajat.containsValue(50)) {
+                        JOptionPane.showMessageDialog(this, "Peli päättyi! " + nykyinenPelaaja + " voitti.");
+                        System.exit(0);
+                    }
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(this, "Syöte ei ole kelvollinen kokonaisluku!");
                 }
             }
+            
         
             public static void main(String[] args) {
                 new MolkkyPistelaskuri();
