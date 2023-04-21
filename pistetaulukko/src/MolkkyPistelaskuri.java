@@ -4,24 +4,33 @@ import java.awt.event.*;
 import java.util.HashMap;
 
 /**
- * MolkkyPistelaskuri on JFrame-luokka, joka toimii Mölkky-pelin pistelaskurina.
- * Käyttöliittymässä on mahdollisuus syöttää pelaajien nimet ja pelin aikana lisätä pisteitä
- * pelaajille. Peli päättyy, kun joku pelaaja saavuttaa 50 pistettä.
+ * MolkkyPistelaskuri on Java-ohjelma, joka toimii pistelaskurina mölkky-pelissä.
+ * Ohjelma kysyy pelaajien lukumäärän ja nimet käyttäjältä, ja näyttää käyttöliittymässä
+ * nykyisen pelaajan nimen ja pistetilanteet taulukossa. Käyttäjä voi lisätä pisteitä
+ * nykyiselle pelaajalle syöttämällä halutun pistemäärän tekstikenttään ja painamalla
+ * "Lisää pisteet" -painiketta. Ohjelma tarkistaa, että syöte on kelvollinen kokonaisluku,
+ * lisää pisteet pelaajalle ja päivittää pistetilanteet taulukkoon. Jos pelaaja saa yli
+ * 50 pistettä, hän tippuu takaisin 25 pisteeseen. Jos jokin pelaaja saa 50 pistettä,
+ * peli päättyy ja ilmoitetaan voittaja.
  */
 
 public class MolkkyPistelaskuri extends JFrame {
+    // Pelaajat tallennetaan HashMap-tietorakenteeseen, jossa avaimena on pelaajan nimi ja
+    // arvona pelaajan pisteet.
     private HashMap<String, Integer> pelaajat = new HashMap<String, Integer>();
     private String[] pelaajaNimet;
     private int nykyinenPelaajaIndex = 0;
 
+    // Käyttöliittymäkomponentit
     private JLabel pelaajaLabel;
     private JLabel pisteetLabel;
     private JTextField pisteetTextField;
     private JButton lisaaPisteetButton;
     private JTable taulukko;
 
-    /**
-     * Konstruktori, jossa kysytään pelaajien nimet ja luodaan käyttöliittymä.
+     /**
+     * Luo uuden MolkkyPistelaskuri-ikkunan. Kysyy pelaajien lukumäärän ja nimet käyttäjältä,
+     * luo käyttöliittymäkomponentit ja asettaa ne ikkunaan.
      */
 
     public MolkkyPistelaskuri() {
@@ -58,7 +67,7 @@ public class MolkkyPistelaskuri extends JFrame {
         taulukko = new JTable(data, otsikot);
 
         // Muokataan pisteetTextFieldin kokoa
-        pisteetTextField.setPreferredSize(new Dimension(15, 20));
+        pisteetTextField.setPreferredSize(new Dimension(20, 20));
 
         // Asetetaan käyttöliittymäkomponentit ikkunaan
           
@@ -78,11 +87,19 @@ public class MolkkyPistelaskuri extends JFrame {
                 setLocationRelativeTo(null);
                 setVisible(true);
             }
-        
+
+            /**
+             * Metodi lisää pelaajalle annetun pistemäärän ja päivittää taulukon näytön.
+             */
             private void lisaaPisteet() {
                 try {
                     int pisteet = Integer.parseInt(pisteetTextField.getText());
-                    pisteetTextField.setText("");
+            
+                    // Tarkista että pisteet ovat sallitulla alueella 0-12
+                    if (pisteet < 0 || pisteet > 12) {
+                        JOptionPane.showMessageDialog(this, "Syötä luku väliltä 0-12.");
+                        return; // Palaa metodiin ja älä lisää pisteitä
+                    }
             
                     String nykyinenPelaaja = pelaajaNimet[nykyinenPelaajaIndex];
                     int vanhatPisteet = pelaajat.get(nykyinenPelaaja);
